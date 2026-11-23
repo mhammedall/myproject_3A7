@@ -1,6 +1,9 @@
 
 from django.db import models
 from AccountApp.models import Doctor,Patient
+from django.utils import timezone 
+from django.core.exceptions import ValidationError
+
 
 # Create your models here.
 
@@ -57,6 +60,16 @@ class Appointment(models.Model):
         on_delete=models.CASCADE,
         related_name="appointments"
     )
+    def clean(self):
+        modified_date=self._state.adding or (
+            Appointment.objects.filter(
+                pk=self.pk,appointment_date=self.appointment_date
+            ).exists()
+
+        )
+        if modified_date and (self.appointment_date <= timezone.localdate()) :
+            raise ValidationError("la date du rendez vous etre postéieur a la carte")
+
 
     class Meta:
         ordering = ["appointment_date"]
@@ -68,3 +81,5 @@ class Appointment(models.Model):
                 violation_error_message="ce docteur possède un rdv avec cette date"
             )
         ]
+    def __str__(self):
+        return f"le rdv est pour la raison {self.reason}"

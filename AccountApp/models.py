@@ -10,6 +10,9 @@ class Speciality(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "speciality"
+        verbose_name_plural = "specialities"
 
 # Create your models here.
 class User(AbstractUser):
@@ -28,6 +31,9 @@ class Doctor(User):
 
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+    class Meta:
+            verbose_name = "Dcotor"
+            verbose_name_plural = "Doctors"
 
     # specialities = models.ManyToManyField("AccountApp.Speciality",)
 
@@ -68,4 +74,6 @@ class Patient(User):
 
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-
+    class Meta:
+        verbose_name = "Patient"
+        verbose_name_plural = "Patients"
